@@ -13,7 +13,7 @@ import android.text.TextUtils;
  * @since 16/6/25
  */
 public class UpgradeApk {
-    public static final String LOCAL_DOWNLOAD_ID = "local_download_id";
+    public static final String LOCAL_DOWNLOAD_ID = "hj_local_download_id";
     private static final String DEFAULT_NAME = "apk";
 
     public static boolean upgrade(Context context, String url, String fileName){
@@ -27,7 +27,7 @@ public class UpgradeApk {
         if(!TextUtils.isEmpty(url)){
             String fileName = getApplicationName(context);
             Uri uri = Uri.parse(url);
-            fileName = TextUtils.isEmpty(fileName) ? uri.getLastPathSegment() : fileName;
+            fileName = TextUtils.isEmpty(uri.getLastPathSegment()) ? fileName : uri.getLastPathSegment();
             return upgrade(context, uri, fileName);
         } else {
             return false; // url is empty
@@ -44,7 +44,7 @@ public class UpgradeApk {
                     new DownloadManager.Request(uri)
                             .setMimeType("application/vnd.android.package-archive")
                             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
-                            //.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                             .setTitle(uri.getLastPathSegment());
             request.allowScanningByMediaScanner();
             long localDownloadId = downloadManager.enqueue(request);

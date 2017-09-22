@@ -1,12 +1,18 @@
 package com.github.captain_miao.upgrade;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.captain_miao.grantap.CheckAnnotatePermission;
+import com.example.captain_miao.grantap.annotation.PermissionCheck;
+import com.example.captain_miao.grantap.annotation.PermissionDenied;
+import com.example.captain_miao.grantap.annotation.PermissionGranted;
 import com.github.captain_miao.library.upgrade.UpgradeApk;
 
 public class MainActivity extends Activity {
@@ -21,6 +27,25 @@ public class MainActivity extends Activity {
 
     AlertDialog mDialog;
     public void onUpgrade(View view) {
+        requestPermission();
+    }
+
+    // 版本升级
+    private void showUpgradeDialog() {
+        requestPermission();
+    }
+
+    @PermissionCheck
+    String[] WRITE_EXTERNAL_STORAGE = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+    public void requestPermission() {
+        CheckAnnotatePermission
+                .from(this, this)
+                .check();
+    }
+
+    @PermissionGranted()
+    public void permissionGranted() {
         if (mDialog == null) {
             mDialog = new AlertDialog.Builder(this)
                     .setTitle("Upgrade apk")
@@ -46,7 +71,11 @@ public class MainActivity extends Activity {
                     .create();
         }
         mDialog.show();
+    }
 
+    @PermissionDenied()
+    public void permissionDenied() {
+        Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show();
     }
 
     @Override
