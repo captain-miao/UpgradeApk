@@ -16,7 +16,7 @@ import com.example.captain_miao.grantap.annotation.PermissionGranted;
 import com.github.captain_miao.library.upgrade.UpgradeApk;
 
 public class MainActivity extends Activity {
-    private static final String UPGRADE_URL = "http://pkg3.fir.im/a80ee078a1127262ac953dc59d5fb14648626d14.apk?attname=upgrade_apk.apk_1.0.apk";
+    private static final String UPGRADE_URL = "https://pro-app-qn.fir.im/e50a03342f1d500a5974a858ac61aafffcce5f00.apk";
 
 
     @Override
